@@ -1,18 +1,21 @@
 /**
  * API Configuration for Octofit Tracker
  * 
- * Uses Vite environment variable VITE_CODESPACE_NAME for Codespaces support.
- * Define VITE_CODESPACE_NAME in .env.local (example: VITE_CODESPACE_NAME=my-codespace)
+ * Uses Vite environment variables for Codespaces or explicit backend URL configuration.
+ * Define VITE_CODESPACE_NAME in .env.local for Codespaces support.
+ * Define VITE_API_BASE_URL for an explicit backend URL override.
  * 
- * If VITE_CODESPACE_NAME is not set, falls back to localhost:8000
+ * If neither value is set, the frontend will use a relative /api path.
  */
 
 const codespaceName = import.meta.env.VITE_CODESPACE_NAME
-const apiBaseUrl = codespaceName
+const envApiBaseUrl = import.meta.env.VITE_API_BASE_URL
+const codespaceApiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev`
-  : 'http://localhost:8000'
+  : ''
+const apiBaseUrl = envApiBaseUrl || codespaceApiBaseUrl || ''
 
-console.log(`API Base URL: ${apiBaseUrl}`)
+console.log(`API Base URL: ${apiBaseUrl || '(relative /api path)'}`)
 
 /**
  * Fetch data from API endpoint
@@ -23,7 +26,12 @@ export const fetchApiData = async <T>(
 ): Promise<T[]> => {
   try {
     const normalized = endpoint.replace(/^\/+|\/+$/g, '')
-    const response = await fetch(`${apiBaseUrl}/api/${normalized}/`)
+    const baseUrl = apiBaseUrl.replace(/\/+$/g, '')
+    const apiUrl = baseUrl
+      ? `${baseUrl}/api/${normalized}/`
+      : `/api/${normalized}/`
+
+    const response = await fetch(apiUrl)
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`)
     }
@@ -44,4 +52,4 @@ export const fetchApiData = async <T>(
   }
 }
 
-export const getApiBaseUrl = () => apiBaseUrl
+export const getApiBaseUrl = () => apiBaseUrl || '/api'
