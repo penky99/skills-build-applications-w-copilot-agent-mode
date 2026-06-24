@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import { apiBaseUrl, mongoUrl, port } from './config'
+import { apiBaseUrl, port } from './config'
+import { connectDatabase } from './database'
 import usersRouter from './routes/users'
 import teamsRouter from './routes/teams'
 import activitiesRouter from './routes/activities'
@@ -26,18 +26,11 @@ app.use('/api/activities', activitiesRouter)
 app.use('/api/leaderboard', leaderboardRouter)
 app.use('/api/workouts', workoutsRouter)
 
-mongoose
-  .connect(mongoUrl)
-  .then(() => {
-    console.log('Connected to MongoDB')
-    app.listen(port, () => {
-      console.log(`Backend running on http://localhost:${port}`)
-      if (process.env.CODESPACE_NAME) {
-        console.log(`Codespaces API URL: ${apiBaseUrl}`)
-      }
-    })
+connectDatabase().then(() => {
+  app.listen(port, () => {
+    console.log(`Backend running on http://localhost:${port}`)
+    if (process.env.CODESPACE_NAME) {
+      console.log(`Codespaces API URL: ${apiBaseUrl}`)
+    }
   })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err)
-    process.exit(1)
-  })
+})

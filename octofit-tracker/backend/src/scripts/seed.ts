@@ -3,8 +3,8 @@ Seed the octofit_db database with test data.
 This script creates realistic sample users, teams, activities, leaderboard entries, and workouts.
 */
 
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import { connectDatabase, disconnectDatabase } from '../database'
 import { User } from '../models/User'
 import { Team } from '../models/Team'
 import { Activity } from '../models/Activity'
@@ -13,10 +13,8 @@ import { Leaderboard } from '../models/Leaderboard'
 
 dotenv.config()
 
-const mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db'
-
 const seed = async () => {
-  await mongoose.connect(mongoUrl)
+  await connectDatabase()
   console.log('Seed the octofit_db database with test data')
 
   await Promise.all([
@@ -80,7 +78,7 @@ const seed = async () => {
   console.log('Seed data created:')
   console.log({ users: users.length, teams: teams.length, workouts: workouts.length, activities: activities.length, leaderboard: leaderboardEntries.length })
 
-  await mongoose.disconnect()
+  await disconnectDatabase()
   console.log('MongoDB connection closed')
 }
 
