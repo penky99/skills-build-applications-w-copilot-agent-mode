@@ -1,26 +1,17 @@
 import { useState, useEffect } from 'react'
 import { fetchApiData } from '../utils/api'
 
-interface Workout {
-  _id: string
-  name: string
-  focusArea: string
-  difficulty: string
-  durationMinutes: number
-  recommendedFor: string[]
-  createdAt: string
-}
 
 export function Workouts() {
-  const [workouts, setWorkouts] = useState<Workout[]>([])
+  const [workouts, setWorkouts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadWorkouts = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<Workout>('workouts/')
+        const data = await fetchApiData('workouts/')
         setWorkouts(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load workouts')

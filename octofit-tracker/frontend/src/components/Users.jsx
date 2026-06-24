@@ -1,24 +1,17 @@
 import { useState, useEffect } from 'react'
 import { fetchApiData } from '../utils/api'
 
-interface User {
-  _id: string
-  name: string
-  email: string
-  role: string
-  joinedAt: string
-}
 
 export function Users() {
-  const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<User>('users/')
+        const data = await fetchApiData('users/')
         setUsers(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load users')

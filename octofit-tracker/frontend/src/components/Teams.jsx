@@ -1,29 +1,17 @@
 import { useState, useEffect } from 'react'
 import { fetchApiData } from '../utils/api'
 
-interface TeamMember {
-  _id: string
-  name: string
-  email: string
-}
-
-interface Team {
-  _id: string
-  name: string
-  members: TeamMember[]
-  createdAt: string
-}
 
 export function Teams() {
-  const [teams, setTeams] = useState<Team[]>([])
+  const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadTeams = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<Team>('teams/')
+        const data = await fetchApiData('teams/')
         setTeams(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load teams')

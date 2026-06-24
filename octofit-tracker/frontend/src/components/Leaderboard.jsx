@@ -1,36 +1,17 @@
 import { useState, useEffect } from 'react'
 import { fetchApiData } from '../utils/api'
 
-interface LeaderboardUser {
-  _id: string
-  name: string
-  email: string
-}
-
-interface LeaderboardTeam {
-  _id: string
-  name: string
-}
-
-interface LeaderboardEntry {
-  _id: string
-  user: LeaderboardUser
-  rank: number
-  points: number
-  team?: LeaderboardTeam
-  updatedAt: string
-}
 
 export function Leaderboard() {
-  const [entries, setEntries] = useState<LeaderboardEntry[]>([])
+  const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadLeaderboard = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<LeaderboardEntry>('leaderboard/')
+        const data = await fetchApiData('leaderboard/')
         setEntries(data.sort((a, b) => a.rank - b.rank))
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load leaderboard')
