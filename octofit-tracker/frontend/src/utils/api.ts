@@ -1,11 +1,11 @@
 /**
  * API Configuration for Octofit Tracker
- * 
+ *
  * Uses Vite environment variables for Codespaces or explicit backend URL configuration.
  * Define VITE_CODESPACE_NAME in .env.local for Codespaces support.
- * Define VITE_API_BASE_URL for an explicit backend URL override.
- * 
- * If neither value is set, the frontend will use a relative /api path.
+ * Optionally define VITE_API_BASE_URL to override the backend base URL.
+ *
+ * If VITE_CODESPACE_NAME is unset, the frontend falls back to a relative /api path.
  */
 
 const codespaceName = import.meta.env.VITE_CODESPACE_NAME

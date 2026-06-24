@@ -38,7 +38,7 @@ const startServer = async () => {
     
     // Display Codespaces URL if available
     if (process.env.CODESPACE_NAME) {
-      console.log(`Codespaces API URL: https://${process.env.CODESPACE_NAME}-8000.app.github.dev`)
+      console.log(`Codespaces API URL: https://${process.env.CODESPACE_NAME}-8001.app.github.dev`)
     }
   })
 }
