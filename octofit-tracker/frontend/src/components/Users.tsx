@@ -18,7 +18,7 @@ export function Users() {
     const loadUsers = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<User>('users')
+        const data = await fetchApiData<User>('users/')
         setUsers(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load users')

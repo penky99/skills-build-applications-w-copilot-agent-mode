@@ -20,7 +20,7 @@ export function Workouts() {
     const loadWorkouts = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<Workout>('workouts')
+        const data = await fetchApiData<Workout>('workouts/')
         setWorkouts(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load workouts')

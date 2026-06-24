@@ -30,7 +30,7 @@ export function Leaderboard() {
     const loadLeaderboard = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<LeaderboardEntry>('leaderboard')
+        const data = await fetchApiData<LeaderboardEntry>('leaderboard/')
         setEntries(data.sort((a, b) => a.rank - b.rank))
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load leaderboard')

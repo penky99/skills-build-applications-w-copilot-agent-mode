@@ -23,7 +23,7 @@ export function Teams() {
     const loadTeams = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<Team>('teams')
+        const data = await fetchApiData<Team>('teams/')
         setTeams(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load teams')

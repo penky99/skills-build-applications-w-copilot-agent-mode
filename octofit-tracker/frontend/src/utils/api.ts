@@ -22,7 +22,8 @@ export const fetchApiData = async <T>(
   endpoint: string
 ): Promise<T[]> => {
   try {
-    const response = await fetch(`${apiBaseUrl}/api/${endpoint}`)
+    const normalized = endpoint.replace(/^\/+|\/+$/g, '')
+    const response = await fetch(`${apiBaseUrl}/api/${normalized}/`)
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`)
     }

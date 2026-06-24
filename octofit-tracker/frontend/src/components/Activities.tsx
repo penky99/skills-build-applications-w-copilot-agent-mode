@@ -26,7 +26,7 @@ export function Activities() {
     const loadActivities = async () => {
       try {
         setLoading(true)
-        const data = await fetchApiData<Activity>('activities')
+        const data = await fetchApiData<Activity>('activities/')
         setActivities(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load activities')
